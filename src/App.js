@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import DefaultLayout from './layout/DefaultLayout';
+import Customer from './view/customer/Customer';
+import CustomerList from './view/customer/CustomerList';
+import Device from './view/device/Device';
+import DeviceList from './view/device/DeviceList';
 
-function App() {
+import entities from './contants/entityNames';
+
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <DefaultLayout>
+      <Switch>
+        <Route path="/customer/new" render={_props => <Customer {...props} {..._props} />} />
+        <Route path="/customer/:id" render={_props => <Customer {...props} {..._props} />} />
+        <Route path="/customer" render={_props => <CustomerList {...props} {..._props} />} />
+        <Route path="/device/new" render={_props => <Device {...props} {..._props} />} />
+        <Route path="/device/:id" render={_props => <Device {...props} {..._props} />} />
+        <Route path="/device" render={_props => <DeviceList {...props} {..._props} />} />
+      </Switch>
+    </DefaultLayout>
   );
 }
 
