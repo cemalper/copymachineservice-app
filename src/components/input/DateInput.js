@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input } from 'antd';
-import FormInput from '../../form-input/FormInput';
+import { DatePicker as AntDatePicker } from 'antd/';
+import locale from 'antd/lib/date-picker/locale/tr_TR';
+import FormInput from '../form-input/FormInput';
 
-const TextInput = props => {
-  const { label, name, touched, errors, values, initialValues, handleChange, handleBlur, isRequired } = props;
+const DateInput = props => {
+  const { label, name, touched, errors, values, initialValues, defaultValue, isRequired, setFieldTouched, setFieldValue, readOnly } = props;
   const value = values[name];
   const isTouched = touched[name];
-  const defaultValue = initialValues[name];
+  const _defaultValue = defaultValue || initialValues[name];
   const errorMessage = errors[name];
-  //const { name, label, handleChange, onBlur, value, defaultValue, isRequired, isTouched, errorMessage } = props;
   const { labelCol, wrapperCol } = props;
   return (
     <FormInput
@@ -22,23 +22,33 @@ const TextInput = props => {
       labelCol={labelCol}
       wrapperCol={wrapperCol}
     >
-      <Input name={name} placeholder={label} onBlur={handleBlur} onChange={handleChange} value={value} defaultValue={defaultValue} />
+      <AntDatePicker
+        locale={locale}
+        defaultPickerValue={_defaultValue}
+        onChange={(date /*, dateString*/) => {
+          setFieldTouched(name, true);
+          setFieldValue(name, date, true);
+        }}
+        value={value || _defaultValue}
+        disabled={readOnly}
+      />
     </FormInput>
   );
 };
 
-TextInput.propTypes = {
+DateInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
   isRequired: PropTypes.bool,
   value: PropTypes.string,
-  defaultValue: PropTypes.string,
+  defaultValue: PropTypes.object,
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
   isTouched: PropTypes.bool,
+  readonly: PropTypes.bool,
   labelCol: PropTypes.object,
   wrapperCol: PropTypes.object
 };
 
-export default TextInput;
+export default DateInput;

@@ -15,6 +15,7 @@ const FormContainer = props => {
   console.log(fetchQuery.data);
   console.log(props.recordId);
   console.log(!!props.recordId);
+  console.log(formikRef.current);
   const onNewButton = {
     onClick: () => {
       history.push(`/${props.entityName}/new`);

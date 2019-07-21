@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'antd';
-import { TextInput, OptionInput } from '../input';
+import moment from 'moment';
+import { TextInput, OptionInput, DateInput } from '../input';
 import { brandNamesPair, deviceColourTypePair, deviceTypePair } from 'common/enums';
 
 const CustomerForm = props => {
@@ -25,6 +26,7 @@ const CustomerForm = props => {
           <OptionInput.Option key={colourType.value} value={colourType.value} text={colourType.text} />
         ))}
       </OptionInput>
+      <DateInput name="createdOn" label="Kayıt Tarihi" {...props} defaultValue={props.initialValues.createdOn || moment()} readOnly />
     </Form>
   );
 };

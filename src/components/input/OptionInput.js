@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Select, Radio } from 'antd';
-import FormInput from '../../form-input/FormInput';
+import FormInput from '../form-input/FormInput';
 
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
