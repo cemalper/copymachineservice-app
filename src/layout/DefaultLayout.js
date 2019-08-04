@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { Layout, Icon } from 'antd';
+import { Layout } from 'antd';
 import Menu from './DefaultMenu';
 import './DefaultLayout.scss';
 
 const { Header, Sider, Content } = Layout;
 
 const DefaultLayout = props => {
-  const [collapsed, setCollapsed] = useState(false);
-  console.log(props);
-
+  const [collapsed] = useState(false);
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/*<Sider trigger={null} collapsible collapsed={collapsed}>*/}

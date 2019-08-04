@@ -10,6 +10,11 @@ export const DevicesQueryType = gql`
       serialNumber
       colourType
       deviceType
+      customer {
+        _id
+        code
+        title
+      }
     }
   }
 `;
@@ -24,6 +29,7 @@ export const DeviceQueryType = gql`
       serialNumber
       colourType
       deviceType
+      customerId
     }
   }
 `;

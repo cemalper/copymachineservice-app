@@ -5,7 +5,7 @@ import locale from 'antd/lib/date-picker/locale/tr_TR';
 import FormInput from '../form-input/FormInput';
 
 const DateInput = props => {
-  const { label, name, touched, errors, values, initialValues, defaultValue, isRequired, setFieldTouched, setFieldValue, readOnly } = props;
+  const { label, name, touched, errors, values, initialValues, defaultValue, isRequired, setFieldTouched, setFieldValue, disabled } = props;
   const value = values[name];
   const isTouched = touched[name];
   const _defaultValue = defaultValue || initialValues[name];
@@ -30,7 +30,7 @@ const DateInput = props => {
           setFieldValue(name, date, true);
         }}
         value={value || _defaultValue}
-        disabled={readOnly}
+        disabled={disabled}
       />
     </FormInput>
   );
@@ -46,7 +46,7 @@ DateInput.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
   isTouched: PropTypes.bool,
-  readonly: PropTypes.bool,
+  disabled: PropTypes.bool,
   labelCol: PropTypes.object,
   wrapperCol: PropTypes.object
 };

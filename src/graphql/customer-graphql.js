@@ -18,7 +18,15 @@ export const CustomersQueryType = gql`
     }
   }
 `;
-
+export const CustomerLookupQueryType = gql`
+  {
+    customers {
+      _id
+      code
+      title
+    }
+  }
+`;
 export const CustomerQueryType = gql`
   query Customer($_id: ID) {
     customer(_id: $_id) {

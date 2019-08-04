@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Menu, Icon } from 'antd';
 import useReactRouter from 'use-react-router';
 import SubMenu from 'antd/lib/menu/SubMenu';
-import pathToRegexp from 'path-to-regexp';
-import paths from '../contants/path';
-import trim from 'lodash-es/trim';
 
 const DefaultMenu = props => {
-  const { history, location } = useReactRouter();
+  const { history } = useReactRouter();
   //const [defaultSelectedKeys, setDefaultSelectedKeys] = useState([]);
   //   useEffect(() => {
   //     let myPath = paths.map(path => path.path);
