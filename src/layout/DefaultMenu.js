@@ -31,7 +31,10 @@ const DefaultMenu = props => {
         <span>Cihaz</span>
       </Menu.Item>
       <SubMenu title="Antlaşmalar" key="agreement">
-        <Menu.Item key="cpp">Kopya Başı</Menu.Item>
+        <SubMenu key="cpp" title="Kopya Başı">
+          <Menu.Item key="cppagreement">Sözleşme</Menu.Item>
+          <Menu.Item key="cppagreementdevice">Cihaz</Menu.Item>
+        </SubMenu>
         <Menu.Item key="service">Servis</Menu.Item>
         <Menu.Item key="paid">Ücretli</Menu.Item>
       </SubMenu>

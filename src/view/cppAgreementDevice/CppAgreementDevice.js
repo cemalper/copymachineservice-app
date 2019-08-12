@@ -10,20 +10,31 @@ import {
   DeleteCppAgreementMutationType
 } from '../../graphql/cppAgreement-graphql';
 import FormRibbon from '../../components/ribbons/FormRibbon';
-import Form from '../../components/form/CppAgreementForm';
+import Form from '../../components/form/CppAgreementDeviceForm';
+
+/*   
+  copyUnitPrice için formda ve mapperde düzenleme yapılmalı
+  _id: ID
+  deviceId: ID
+  cppDeviceType: CppAgreementDeviceType
+  machineRentPrice: MoneyType
+  copyUnitPrice: CopyUnitPrice
+  minimumCopyLimit: Int
+  cost: MoneyType
+*/
 
 const mapToApi = values => ({
   _id: values._id,
-  code: values.code,
-  incrementRate: values.incrementRate,
-  startDate: values.startDate,
-  finishDate: values.finishDate,
-  status: values.status,
-  customerId: values.customerId
+  deviceId: values.deviceId,
+  cppDeviceType: values.cppDeviceType,
+  machineRentPrice: {},
+  copyUnitPrice: values.copyUnitPrice,
+  minimumCopyLimit: values.minimumCopyLimit,
+  cost: values.cost
 });
 
-const CppAgreement = props => {
-  const entityName = 'agreement/cpp/cppagreement';
+const CppAgreementDevice = props => {
+  const entityName = 'agreement/cpp/cppagreementdevice';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
@@ -36,6 +47,7 @@ const CppAgreement = props => {
       history.push(`/${entityName}/new`);
     }
   };
+
   const onSaveButton = {
     onClick: () => {
       formikRef.current.submitForm();
@@ -53,6 +65,7 @@ const CppAgreement = props => {
     visible: !!recordId,
     disabled: isDeleting
   };
+  console.log(fetchQuery.data);
   return (
     <Spin spinning={fetchQuery.loading}>
       <FormRibbon onNewButton={onNewButton} onSaveButton={onSaveButton} onDeleteButton={onDeleteButton} />
@@ -74,4 +87,4 @@ const CppAgreement = props => {
   );
 };
 
-export default CppAgreement;
+export default CppAgreementDevice;

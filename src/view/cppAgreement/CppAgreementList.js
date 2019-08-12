@@ -7,7 +7,7 @@ import Table from '../../components/table/Table';
 import TableRibbons from '../../components/ribbons/TableRibbon';
 import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
 
-const entityName = 'agreement/cpp';
+const entityName = 'agreement/cpp/cppagreement';
 const columns = [
   {
     title: 'Kod',
@@ -81,7 +81,7 @@ const CppAgreementList = props => {
 
   const onDeleteRibbonButton = {
     onClick: async () => {
-      await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: props.fetchQueryType }] });
+      await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });
       setSelectedItemIds([]);
     },
     disabled: selectedItemIds.length === 0,

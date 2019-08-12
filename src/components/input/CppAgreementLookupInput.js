@@ -15,8 +15,8 @@ const CustomerLookupInput = props => (
     optionLabelProp="label"
     filterOption={(input, option) => option.props.label.toLowerCase().indexOf(input.toLowerCase()) >= 0}
     renderOption={option => (
-      <Option key={option._id} value={option._id} label={`${option.code} - ${option.title}`}>
-        {`${option.code} - ${option.title}`}
+      <Option key={option._id} value={option._id} label={`${option.code} - ${option.customer.title}`}>
+        {`${option.code} - ${option.customer.title}`}
       </Option>
     )}
   />

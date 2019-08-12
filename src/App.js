@@ -7,6 +7,8 @@ import Device from './view/device/Device';
 import DeviceList from './view/device/DeviceList';
 import CppAgreement from './view/cppAgreement/CppAgreement';
 import CppAgreementList from './view/cppAgreement/CppAgreementList';
+import CppAgreementDevice from './view/cppAgreementDevice/CppAgreementDevice';
+import CppAgreementDeviceList from './view/cppAgreementDevice/CppAgreementDeviceList';
 
 //import entities from './contants/entityNames';
 
@@ -20,9 +22,12 @@ function App(props) {
         <Route path="/device/new" render={_props => <Device {...props} {..._props} />} />
         <Route path="/device/:id" render={_props => <Device {...props} {..._props} />} />
         <Route path="/device" render={_props => <DeviceList {...props} {..._props} />} />
-        <Route path="/agreement/cpp/new" render={_props => <CppAgreement {...props} {..._props} />} />
-        <Route path="/agreement/cpp/:id" render={_props => <CppAgreement {...props} {..._props} />} />
-        <Route path="/agreement/cpp" render={_props => <CppAgreementList {...props} {..._props} />} />
+        <Route path="/agreement/cpp/cppagreement/new" render={_props => <CppAgreement {...props} {..._props} />} />
+        <Route path="/agreement/cpp/cppagreement/:id" render={_props => <CppAgreement {...props} {..._props} />} />
+        <Route path="/agreement/cpp/cppagreement" render={_props => <CppAgreementList {...props} {..._props} />} />
+        <Route path="/agreement/cpp/cppagreementdevice/new" render={_props => <CppAgreementDevice {...props} {..._props} />} />
+        <Route path="/agreement/cpp/cppagreementdevice/:id" render={_props => <CppAgreementDevice {...props} {..._props} />} />
+        <Route path="/agreement/cpp/cppagreementdevice" render={_props => <CppAgreementDeviceList {...props} {..._props} />} />
       </Switch>
     </DefaultLayout>
   );
