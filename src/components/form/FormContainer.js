@@ -12,10 +12,6 @@ const FormContainer = props => {
   const fetchQuery = useQuery(props.fetchQueryType, { variables: { _id: props.recordId } });
   const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(props.saveMutationType);
   const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(props.deleteMutationType);
-  console.log(fetchQuery.data);
-  console.log(props.recordId);
-  console.log(!!props.recordId);
-  console.log(formikRef.current);
   const onNewButton = {
     onClick: () => {
       history.push(`/${props.entityName}/new`);

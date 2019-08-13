@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { InputNumber } from 'antd';
 import FormInput from '../form-input/FormInput';
 
-const TextInput = props => {
-  const { label, name, touched, errors, values, initialValues, setFieldValue, handleBlur, isRequired, readOnly } = props;
+const NumberInput = props => {
+  const { label, name, touched, errors, values, initialValues, setFieldValue, handleBlur, isRequired, disabled } = props;
   const value = values[name];
   const isTouched = touched[name];
   const defaultValue = initialValues[name];
@@ -13,6 +13,7 @@ const TextInput = props => {
   const { labelCol, wrapperCol } = props;
   const onChange = newValue => {
     setFieldValue(name, newValue, true);
+    props.customChange && props.customChange(newValue);
     //setFieldTouched(name, true, true);
   };
   return (
@@ -35,14 +36,17 @@ const TextInput = props => {
         value={value}
         precision={0}
         step={1000}
+        formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+        parser={value => value.replace(/\$\s?|(\.*)/g, '')}
+        decimalSeparator=","
         defaultValue={defaultValue}
-        readOnly={readOnly}
+        disabled={disabled}
       />
     </FormInput>
   );
 };
 
-TextInput.propTypes = {
+NumberInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
@@ -50,6 +54,7 @@ TextInput.propTypes = {
   value: PropTypes.string,
   defaultValue: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
+  customChange: PropTypes.func,
   handleBlur: PropTypes.func.isRequired,
   isTouched: PropTypes.bool,
   readonly: PropTypes.bool,
@@ -57,4 +62,4 @@ TextInput.propTypes = {
   wrapperCol: PropTypes.object
 };
 
-export default TextInput;
+export default NumberInput;

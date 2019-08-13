@@ -6,7 +6,7 @@ import Table from '../../components/table/Table';
 
 import TableRibbons from '../../components/ribbons/TableRibbon';
 import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
-
+import { buildDeviceName, buildCustomerName, buildMoneyName } from '../../utils/buildName';
 const entityName = 'agreement/cpp/cppagreementdevice';
 const columns = [
   {
@@ -19,20 +19,12 @@ const columns = [
     title: 'Cihaz',
     dataIndex: 'device',
     sorter: true,
-    render: (text, record) => (
-      <a href={`/device/${record.device._id}`}>
-        {record.device.code} - {record.device.serialNumber} {record.device.brandName} {record.device.model}
-      </a>
-    )
+    render: (text, record) => <a href={`/device/${record.device._id}`}>{buildDeviceName(record.device)}</a>
   },
   {
     title: 'Müşteri',
     dataIndex: 'customer',
-    render: (text, record) => (
-      <a href={`/customer/${record.cppAgreement.customer._id}`}>
-        {record.cppAgreement.customer.code} - {record.cppAgreement.customer.title}
-      </a>
-    )
+    render: (text, record) => <a href={`/customer/${record.cppAgreement.customer._id}`}>{buildCustomerName(record.cppAgreement.customer)}</a>
   },
   {
     title: 'Cihaz Kiralama Tipi',
@@ -50,12 +42,12 @@ const columns = [
   {
     title: 'Siyah Kopya Birim Ücreti',
     dataIndex: 'blackCopyUnitPrice',
-    render: (text, record) => record.copyUnitPrice.black && `${record.copyUnitPrice.black.price} - ${record.copyUnitPrice.black.currency})`
+    render: (text, record) => record.copyUnitPrice.black && buildMoneyName(record.copyUnitPrice.black)
   },
   {
     title: 'Renkli Kopya Birim Ücreti',
     dataIndex: 'colourCopyUnitPrice',
-    render: (text, record) => record.copyUnitPrice.colour && `${record.copyUnitPrice.colour.price} - ${record.copyUnitPrice.colour.currency})`
+    render: (text, record) => record.copyUnitPrice.colour && buildMoneyName(record.copyUnitPrice.colour)
   }
 ];
 
@@ -70,7 +62,7 @@ const CppAgreementDeviceList = props => {
     if (!data) return;
     var customerNameColumn = columns.find(x => x.dataIndex === 'customer');
     customerNameColumn.filters = data.map(x => ({
-      text: `${x.cppAgreement.customer.code} - ${x.cppAgreement.customer.title}`,
+      text: buildCustomerName(x.cppAgreement.customer),
       value: x.cppAgreement.customer._id
     }));
     customerNameColumn.onFilter = (value, record) => record.customer.code === value;

@@ -14,7 +14,7 @@ import { cppAgreementDeviceTypePair } from 'common/enums';
   cost: MoneyType
 */
 
-const CustomerForm = props => {
+const CppAgreementDeviceForm = props => {
   const { handleSubmit } = props;
 
   return (
@@ -36,4 +36,4 @@ const CustomerForm = props => {
   );
 };
 
-export default CustomerForm;
+export default CppAgreementDeviceForm;
