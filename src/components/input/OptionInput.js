@@ -56,7 +56,7 @@ class OptionInput extends React.Component {
     options: PropTypes.array,
     hasError: PropTypes.bool,
     errorMessage: PropTypes.string,
-    isRequired: PropTypes.bool,
+    required: PropTypes.bool,
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     handleBlur: PropTypes.func.isRequired,
@@ -64,7 +64,7 @@ class OptionInput extends React.Component {
     isTouched: PropTypes.bool
   };
   render() {
-    const { name, label, touched, errors, values, initialValues, isRequired, options } = this.props;
+    const { name, label, touched, errors, values, initialValues, required, options } = this.props;
     const isTouched = touched[name];
     const value = values[name];
     const defaultValue = initialValues[name];
@@ -77,11 +77,10 @@ class OptionInput extends React.Component {
     return (
       <FormInput
         label={label}
-        required={isRequired}
-        hasFeedback={isTouched}
-        help={errorMessage}
-        style={{ marginBottom: 10 }}
-        validateStatus={!!errorMessage ? 'error' : 'success'}
+        required={required}
+        hasFeedback={!!isTouched}
+        help={!!errorMessage && !!isTouched ? errorMessage : undefined}
+        validateStatus={!!errorMessage && !!isTouched ? 'error' : 'success'}
         labelCol={labelCol}
         wrapperCol={wrapperCol}
       >

@@ -4,7 +4,6 @@ import { Input } from 'antd';
 import FormInput from '../form-input/FormInput';
 
 const TextInput = props => {
-  console.log(props);
   const { label, name, touched, errors, values, initialValues, handleChange, handleBlur, required, disabled } = props;
   const value = values[name];
   const isTouched = touched[name];
@@ -14,16 +13,16 @@ const TextInput = props => {
   const { labelCol, wrapperCol } = props;
   const onChange = e => {
     handleChange(e);
-    props.customChange(e.target.value);
+    props.customChange && props.customChange(e.target.value);
   };
   return (
     <FormInput
       style={{ marginBottom: 10 }}
       label={label}
       required={required}
-      hasFeedback={isTouched}
-      help={errorMessage}
-      validateStatus={!!errorMessage ? 'error' : 'success'}
+      hasFeedback={!!isTouched}
+      help={!!errorMessage && !!isTouched ? errorMessage : undefined}
+      validateStatus={!!errorMessage && !!isTouched ? 'error' : 'success'}
       labelCol={labelCol}
       wrapperCol={wrapperCol}
     >

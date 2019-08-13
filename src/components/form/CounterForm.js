@@ -1,8 +1,9 @@
 import React from 'react';
 import { Form } from 'antd';
 import moment from 'moment';
+import * as yup from 'yup';
 import { DateInput, DeviceLookupInput, NumberInput } from '../input';
-const DeviceCostForm = props => {
+const CounterForm = props => {
   const { handleSubmit } = props;
 
   return (
@@ -20,4 +21,20 @@ const DeviceCostForm = props => {
   );
 };
 
-export default DeviceCostForm;
+CounterForm.initialValues = {
+  deviceId: undefined,
+  date: undefined,
+  blackA5: undefined,
+  blackA4: undefined,
+  blackA3: undefined,
+  colourA5: undefined,
+  colourA4: undefined,
+  colourA3: undefined
+};
+
+CounterForm.validationSchema = yup.object().shape({
+  deviceId: yup.string().required('Cihaz boş olamaz'),
+  date: yup.string().required('Tarih boş olamaz')
+});
+
+export default CounterForm;

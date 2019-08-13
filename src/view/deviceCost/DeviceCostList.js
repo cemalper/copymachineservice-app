@@ -22,7 +22,7 @@ DeviceCost {
   device: Device
 }
 */
-const entityName = 'deviceCost';
+const entityName = 'devicecost';
 const columns = [
   {
     title: 'Cihaz',

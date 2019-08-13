@@ -27,7 +27,7 @@ const CppAgreement = props => {
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(CppAgreementQueryType, { variables: { _id: recordId } });
+  const fetchQuery = useQuery(CppAgreementQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
   const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCppAgreementMutationType);
   const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteCppAgreementMutationType);
 
@@ -60,8 +60,9 @@ const CppAgreement = props => {
       {deletingError && <Alert message={`${deletingError.message} ${deletingError.stack}`} type="error" style={{ marginBottom: 20 }} />}
       <Formik
         ref={formikRef}
+        validationSchema={Form.validationSchema}
         enableReinitialize
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || {}}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });

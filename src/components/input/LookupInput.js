@@ -4,7 +4,7 @@ import { Select, Spin } from 'antd';
 import FormInput from '../form-input/FormInput';
 
 function LookupInput(props) {
-  const { name, label, touched, errors, values, initialValues, isRequired, setFieldTouched, setFieldValue } = props;
+  const { name, label, touched, errors, values, initialValues, required, setFieldTouched, setFieldValue } = props;
   const { selectQuery, dataField, filterOption, optionLabelProp, renderOption } = props;
   const isTouched = touched[name];
   const value = values[name];
@@ -14,11 +14,10 @@ function LookupInput(props) {
   return (
     <FormInput
       label={label}
-      required={isRequired}
-      hasFeedback={isTouched}
-      help={errorMessage}
-      style={{ marginBottom: 10 }}
-      validateStatus={!!errorMessage ? 'error' : 'success'}
+      required={required}
+      hasFeedback={!!isTouched}
+      help={!!errorMessage && !!isTouched ? errorMessage : undefined}
+      validateStatus={!!errorMessage && !!isTouched ? 'error' : 'success'}
       labelCol={labelCol}
       wrapperCol={wrapperCol}
     >
@@ -50,7 +49,7 @@ LookupInput.propTypes = {
   options: PropTypes.array,
   hasError: PropTypes.bool,
   errorMessage: PropTypes.string,
-  isRequired: PropTypes.bool,
+  required: PropTypes.bool,
   value: PropTypes.string,
   defaultValue: PropTypes.string,
   handleBlur: PropTypes.func.isRequired,

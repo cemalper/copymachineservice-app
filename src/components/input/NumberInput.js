@@ -4,7 +4,7 @@ import { InputNumber } from 'antd';
 import FormInput from '../form-input/FormInput';
 
 const NumberInput = props => {
-  const { label, name, touched, errors, values, initialValues, setFieldValue, handleBlur, isRequired, disabled } = props;
+  const { label, name, touched, errors, values, initialValues, setFieldValue, handleBlur, required, disabled } = props;
   const value = values[name];
   const isTouched = touched[name];
   const defaultValue = initialValues[name];
@@ -18,12 +18,11 @@ const NumberInput = props => {
   };
   return (
     <FormInput
-      style={{ marginBottom: 10 }}
       label={label}
-      required={isRequired}
-      hasFeedback={isTouched}
-      help={errorMessage}
-      validateStatus={!!errorMessage ? 'error' : 'success'}
+      required={required}
+      hasFeedback={!!isTouched}
+      help={!!errorMessage && !!isTouched ? errorMessage : undefined}
+      validateStatus={!!errorMessage && !!isTouched ? 'error' : 'success'}
       labelCol={labelCol}
       wrapperCol={wrapperCol}
     >
@@ -50,14 +49,13 @@ NumberInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
-  isRequired: PropTypes.bool,
+  required: PropTypes.bool,
   value: PropTypes.string,
   defaultValue: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   customChange: PropTypes.func,
   handleBlur: PropTypes.func.isRequired,
   isTouched: PropTypes.bool,
-  readonly: PropTypes.bool,
   labelCol: PropTypes.object,
   wrapperCol: PropTypes.object
 };

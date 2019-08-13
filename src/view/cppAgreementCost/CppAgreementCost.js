@@ -20,11 +20,11 @@ const mapToApi = values => ({
 });
 
 const DeviceCost = props => {
-  const entityName = 'deviceCost';
+  const entityName = 'devicecost';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(DeviceCostQueryType, { variables: { _id: recordId } });
+  const fetchQuery = useQuery(DeviceCostQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
   const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveDeviceCostMutationType);
   const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteDeviceCostMutationType);
 
@@ -58,7 +58,8 @@ const DeviceCost = props => {
       <Formik
         ref={formikRef}
         enableReinitialize
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || {}}
+        validationSchema={Form.validationSchema}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });

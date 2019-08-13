@@ -18,12 +18,12 @@ const mapToApi = values => ({
   customerId: values.customerId
 });
 
-const Customer = props => {
+const Device = props => {
   const entityName = 'device';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(DeviceQueryType, { variables: { _id: recordId } });
+  const fetchQuery = useQuery(DeviceQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
   const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveDeviceMutationType);
   const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteDeviceMutationType);
 
@@ -50,7 +50,6 @@ const Customer = props => {
     visible: !!recordId,
     disabled: isDeleting
   };
-  console.log(fetchQuery.data);
   return (
     <Spin spinning={fetchQuery.loading}>
       <FormRibbon onNewButton={onNewButton} onSaveButton={onSaveButton} onDeleteButton={onDeleteButton} />
@@ -59,7 +58,8 @@ const Customer = props => {
       <Formik
         ref={formikRef}
         enableReinitialize
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || {}}
+        validationSchema={DeviceForm.validationSchema}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || DeviceForm.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: DevicesQueryType }] });
@@ -72,4 +72,4 @@ const Customer = props => {
   );
 };
 
-export default Customer;
+export default Device;

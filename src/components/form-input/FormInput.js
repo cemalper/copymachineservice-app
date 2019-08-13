@@ -3,15 +3,15 @@ import { Form } from 'antd';
 
 const FormItem = Form.Item;
 
-export const FormInput = ({ label, required, isTouched, errorMessage, labelCol, wrapperCol, children }) => {
+export const FormInput = ({ label, required, hasFeedback, help, validateStatus, labelCol, wrapperCol, children }) => {
   return (
     <FormItem
       label={label}
       required={required}
-      hasFeedback={isTouched}
-      help={errorMessage}
+      hasFeedback={hasFeedback}
+      help={help}
       style={{ marginBottom: 10 }}
-      validateStatus={!!errorMessage ? 'error' : 'success'}
+      validateStatus={validateStatus}
       labelCol={labelCol}
       wrapperCol={wrapperCol}
     >

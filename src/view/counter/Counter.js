@@ -30,14 +30,17 @@ deviceId
 const mapToApi = values => ({
   _id: values._id,
   deviceId: values.deviceId,
-  cppAgreementId: values.cppAgreementId,
-  deviceCostType: values.deviceCostType,
-  name: values.name,
-  amount: values.amount,
-  unitPrice: values.unitPrice,
-  totalPrice: values.totalPrice,
-  date: values.date,
-  comment: values.comment
+  colour: {
+    A5: values.colourA5,
+    A4: values.colourA4,
+    A3: values.colourA3
+  },
+  black: {
+    A5: values.blackA5,
+    A4: values.blackA4,
+    A3: values.blackA3
+  },
+  date: values.date
 });
 
 const DeviceCost = props => {
@@ -45,7 +48,7 @@ const DeviceCost = props => {
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(CounterQueryType, { variables: { _id: recordId } });
+  const fetchQuery = useQuery(CounterQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
   const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCounterMutationType);
   const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteCounterMutationType);
 
@@ -79,7 +82,8 @@ const DeviceCost = props => {
       <Formik
         ref={formikRef}
         enableReinitialize
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || {}}
+        validationSchema={Form.validationSchema}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CountersQueryType }] });
