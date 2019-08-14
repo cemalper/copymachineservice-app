@@ -1,20 +1,21 @@
 import React from 'react';
+import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import DefaultLayout from './layout/DefaultLayout';
-import Customer from './view/customer/Customer';
-import CustomerList from './view/customer/CustomerList';
-import Counter from './view/counter/Counter';
-import CounterList from './view/counter/CounterList';
-import Device from './view/device/Device';
-import DeviceList from './view/device/DeviceList';
-import DeviceCost from './view/deviceCost/DeviceCost';
-import DeviceCostList from './view/deviceCost/DeviceCostList';
-import CppAgreement from './view/cppAgreement/CppAgreement';
-import CppAgreementList from './view/cppAgreement/CppAgreementList';
-import CppAgreementDevice from './view/cppAgreementDevice/CppAgreementDevice';
-import CppAgreementDeviceList from './view/cppAgreementDevice/CppAgreementDeviceList';
-import CppAgreementCost from './view/cppAgreementCost/CppAgreementCost';
-import CppAgreementCostList from './view/cppAgreementCost/CppAgreementCostList';
+import Customer from './page/customer/Customer';
+import CustomerList from './page/customer/CustomerList';
+import Counter from './page/counter/Counter';
+import CounterList from './page/counter/CounterList';
+import Device from './page/device/Device';
+import DeviceList from './page/device/DeviceList';
+import DeviceCost from './page/deviceCost/DeviceCost';
+import DeviceCostList from './page/deviceCost/DeviceCostList';
+import CppAgreement from './page/cppAgreement/CppAgreement';
+import CppAgreementList from './page/cppAgreement/CppAgreementList';
+import CppAgreementDevice from './page/cppAgreementDevice/CppAgreementDevice';
+import CppAgreementDeviceList from './page/cppAgreementDevice/CppAgreementDeviceList';
+import CppAgreementCost from './page/cppAgreementCost/CppAgreementCost';
+import CppAgreementCostList from './page/cppAgreementCost/CppAgreementCostList';
 
 //import entities from './contants/entityNames';
 

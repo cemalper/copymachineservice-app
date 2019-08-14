@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { CountersQueryType, DeleteCounterMutationType } from '../../graphql/counter-graphql';
+
+import { deviceCostTypePair } from 'common/enums';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import Table from '../../components/table/Table';
-import TableRibbons from '../../components/ribbons/TableRibbon';
-import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
-import { buildDeviceName } from '../../utils/buildName';
-const entityName = 'counter';
+import Table from '../../../components/table/Table';
+import { DeviceCostsQueryType, DeleteDeviceCostMutationType } from '../../../graphql/deviceCost-graphql';
+import TableRibbons from '../../../components/ribbons/TableRibbon';
+import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
+import { buildDeviceName, buildMoneyName } from '../../../utils/buildName';
+
+const entityName = 'devicecost';
 const columns = [
   {
     title: 'Cihaz',
@@ -14,38 +17,23 @@ const columns = [
     sorter: true
   },
   {
-    title: 'Siyah',
-    children: [
-      {
-        title: 'A5',
-        dataIndex: 'black.A5'
-      },
-      {
-        title: 'A4',
-        dataIndex: 'black.A4'
-      },
-      {
-        title: 'A3',
-        dataIndex: 'black.A3'
-      }
-    ]
+    title: 'Masraf Tipi',
+    dataIndex: 'deviceCostType',
+    render: (text, record) => (text && deviceCostTypePair.find(x => x.value === text).text) || ''
   },
   {
-    title: 'Renkli',
-    children: [
-      {
-        title: 'A5',
-        dataIndex: 'colour.A5'
-      },
-      {
-        title: 'A4',
-        dataIndex: 'colour.A4'
-      },
-      {
-        title: 'A3',
-        dataIndex: 'colour.A3'
-      }
-    ]
+    title: 'Ad',
+    dataIndex: 'name'
+  },
+  {
+    title: 'Birim Fiyat',
+    dataIndex: 'unitPrice',
+    render: (text, record) => text && buildMoneyName(record.unitPrice)
+  },
+  {
+    title: 'Toplam Tutar',
+    dataIndex: 'totalPrice',
+    render: (text, record) => text && buildMoneyName(record.totalPrice)
   },
   {
     title: 'Tarih',
@@ -53,10 +41,10 @@ const columns = [
   }
 ];
 
-const CounterList = props => {
-  const fetchQuery = useQuery(CountersQueryType);
+const CppAgreementList = props => {
+  const fetchQuery = useQuery(DeviceCostsQueryType);
   const [filteredColumns, setFilteredColumns] = useState(columns);
-  const [deleteRecords, { loading: isDeleting, error: deleteError }] = useMutation(DeleteCounterMutationType);
+  const [deleteRecords, { loading: isDeleting, error: deleteError }] = useMutation(DeleteDeviceCostMutationType);
   const [selectedItemIds, setSelectedItemIds] = useState([]);
 
   useEffect(() => {
@@ -88,7 +76,7 @@ const CounterList = props => {
 
   const onDeleteRibbonButton = {
     onClick: async () => {
-      await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: CountersQueryType }] });
+      await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });
       setSelectedItemIds([]);
     },
     disabled: selectedItemIds.length === 0,
@@ -111,7 +99,7 @@ const CounterList = props => {
         isLoading={isDeleting}
         message={deleteError.message}
         retryAction={async () => {
-          await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: CountersQueryType }] });
+          await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });
         }}
       />
     );
@@ -128,4 +116,4 @@ const CounterList = props => {
     </div>
   );
 };
-export default CounterList;
+export default CppAgreementList;

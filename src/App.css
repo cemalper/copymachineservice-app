@@ -31,3 +31,12 @@
     transform: rotate(360deg);
   }
 }
+
+/*.ant-advanced-search-form .ant-form-item {
+  display: flex;
+}
+
+.ant-advanced-search-form .ant-form-item-control-wrapper {
+  flex: 1;
+}
+*/

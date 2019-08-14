@@ -1,28 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { DeviceCostsQueryType, DeleteDeviceCostMutationType } from '../../graphql/deviceCost-graphql';
-import { deviceCostTypePair } from 'common/enums';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import Table from '../../components/table/Table';
-import TableRibbons from '../../components/ribbons/TableRibbon';
-import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
-import { buildDeviceName, buildMoneyName } from '../../utils/buildName';
-/*
-DeviceCost {
-  _id: ID
-  deviceId: ID
-  cppAgreementId: ID
-  deviceCostType: DeviceCostType
-  name: String
-  amount: Int
-  unitPrice: MoneyType
-  totalPrice: MoneyType
-  date: String
-  createdOn: String
-  comment: String
-  device: Device
-}
-*/
-const entityName = 'devicecost';
+
+import Table from '../../../components/table/Table';
+import TableRibbons from '../../../components/ribbons/TableRibbon';
+import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
+import { buildDeviceName } from '../../../utils/buildName';
+import { CountersQueryType, DeleteCounterMutationType } from '../../../graphql/counter-graphql';
+const entityName = 'counter';
 const columns = [
   {
     title: 'Cihaz',
@@ -31,23 +15,38 @@ const columns = [
     sorter: true
   },
   {
-    title: 'Masraf Tipi',
-    dataIndex: 'deviceCostType',
-    render: (text, record) => (text && deviceCostTypePair.find(x => x.value === text).text) || ''
+    title: 'Siyah',
+    children: [
+      {
+        title: 'A5',
+        dataIndex: 'black.A5'
+      },
+      {
+        title: 'A4',
+        dataIndex: 'black.A4'
+      },
+      {
+        title: 'A3',
+        dataIndex: 'black.A3'
+      }
+    ]
   },
   {
-    title: 'Ad',
-    dataIndex: 'name'
-  },
-  {
-    title: 'Birim Fiyat',
-    dataIndex: 'unitPrice',
-    render: (text, record) => text && buildMoneyName(record.unitPrice)
-  },
-  {
-    title: 'Toplam Tutar',
-    dataIndex: 'totalPrice',
-    render: (text, record) => text && buildMoneyName(record.totalPrice)
+    title: 'Renkli',
+    children: [
+      {
+        title: 'A5',
+        dataIndex: 'colour.A5'
+      },
+      {
+        title: 'A4',
+        dataIndex: 'colour.A4'
+      },
+      {
+        title: 'A3',
+        dataIndex: 'colour.A3'
+      }
+    ]
   },
   {
     title: 'Tarih',
@@ -55,10 +54,10 @@ const columns = [
   }
 ];
 
-const CppAgreementList = props => {
-  const fetchQuery = useQuery(DeviceCostsQueryType);
+const CounterList = props => {
+  const fetchQuery = useQuery(CountersQueryType);
   const [filteredColumns, setFilteredColumns] = useState(columns);
-  const [deleteRecords, { loading: isDeleting, error: deleteError }] = useMutation(DeleteDeviceCostMutationType);
+  const [deleteRecords, { loading: isDeleting, error: deleteError }] = useMutation(DeleteCounterMutationType);
   const [selectedItemIds, setSelectedItemIds] = useState([]);
 
   useEffect(() => {
@@ -90,7 +89,7 @@ const CppAgreementList = props => {
 
   const onDeleteRibbonButton = {
     onClick: async () => {
-      await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });
+      await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: CountersQueryType }] });
       setSelectedItemIds([]);
     },
     disabled: selectedItemIds.length === 0,
@@ -113,7 +112,7 @@ const CppAgreementList = props => {
         isLoading={isDeleting}
         message={deleteError.message}
         retryAction={async () => {
-          await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });
+          await deleteRecords({ variables: { _ids: selectedItemIds }, refetchQueries: () => [{ query: CountersQueryType }] });
         }}
       />
     );
@@ -130,4 +129,4 @@ const CppAgreementList = props => {
     </div>
   );
 };
-export default CppAgreementList;
+export default CounterList;

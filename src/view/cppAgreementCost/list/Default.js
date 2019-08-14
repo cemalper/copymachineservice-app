@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { DeviceCostsQueryType, DeleteDeviceCostMutationType } from '../../graphql/deviceCost-graphql';
 import { deviceCostTypePair } from 'common/enums';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import Table from '../../components/table/Table';
-import TableRibbons from '../../components/ribbons/TableRibbon';
-import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
-import { buildDeviceName, buildMoneyName, buildCppAgreementName } from '../../utils/buildName';
+
+import { DeviceCostsQueryType, DeleteDeviceCostMutationType } from '../../../graphql/deviceCost-graphql';
+import Table from '../../../components/table/Table';
+import TableRibbons from '../../../components/ribbons/TableRibbon';
+import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
+import { buildDeviceName, buildMoneyName, buildCppAgreementName } from '../../../utils/buildName';
 
 const entityName = 'agreement/cpp/cppagreementcost';
 const columns = [

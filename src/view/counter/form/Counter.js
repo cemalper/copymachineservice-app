@@ -3,36 +3,40 @@ import useReactRouter from 'use-react-router';
 import { Spin, Alert } from 'antd';
 import { Formik } from 'formik';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { DeviceQueryType, DevicesQueryType, SaveDeviceMutationType, DeleteDeviceMutationType } from '../../graphql/device-graphql';
-import FormRibbon from '../../components/ribbons/FormRibbon';
-import DeviceForm from '../../components/form/DeviceForm';
+import { CounterQueryType, CountersQueryType, SaveCounterMutationType, DeleteCounterMutationType } from '../../../graphql/counter-graphql';
+import FormRibbon from '../../../components/ribbons/FormRibbon';
+import Form from '../../../components/form/CounterForm';
 
 const mapToApi = values => ({
   _id: values._id,
-  code: values.code,
-  brandName: values.brandName,
-  model: values.model,
-  serialNumber: values.serialNumber,
-  colourType: values.colourType,
-  deviceType: values.deviceType,
-  customerId: values.customerId
+  deviceId: values.deviceId,
+  colour: {
+    A5: values.colourA5,
+    A4: values.colourA4,
+    A3: values.colourA3
+  },
+  black: {
+    A5: values.blackA5,
+    A4: values.blackA4,
+    A3: values.blackA3
+  },
+  date: values.date
 });
 
-const Device = props => {
-  const entityName = 'device';
+const DeviceCost = props => {
+  const entityName = 'counter';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(DeviceQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
-  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveDeviceMutationType);
-  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteDeviceMutationType);
+  const fetchQuery = useQuery(CounterQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
+  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCounterMutationType);
+  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteCounterMutationType);
 
   const onNewButton = {
     onClick: () => {
       history.push(`/${entityName}/new`);
     }
   };
-
   const onSaveButton = {
     onClick: () => {
       formikRef.current.submitForm();
@@ -43,7 +47,7 @@ const Device = props => {
 
   const onDeleteButton = {
     onClick: async () => {
-      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: DevicesQueryType }] });
+      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: CountersQueryType }] });
       history.push(`/${entityName}`);
     },
     loading: isDeleting,
@@ -58,18 +62,18 @@ const Device = props => {
       <Formik
         ref={formikRef}
         enableReinitialize
-        validationSchema={DeviceForm.validationSchema}
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || DeviceForm.initialValues}
+        validationSchema={Form.validationSchema}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
-          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: DevicesQueryType }] });
+          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CountersQueryType }] });
           setSubmitting(false);
           history.push(`/${entityName}`);
         }}
-        component={DeviceForm}
+        component={Form}
       />
     </Spin>
   );
 };
 
-export default Device;
+export default DeviceCost;

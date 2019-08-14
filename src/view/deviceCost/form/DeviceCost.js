@@ -3,12 +3,26 @@ import useReactRouter from 'use-react-router';
 import { Spin, Alert } from 'antd';
 import { Formik } from 'formik';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { DeviceCostQueryType, DeviceCostsQueryType, SaveDeviceCostMutationType, DeleteDeviceCostMutationType } from '../../graphql/deviceCost-graphql';
-import FormRibbon from '../../components/ribbons/FormRibbon';
-import Form from '../../components/form/CppAgreementCostForm';
+import { DeviceCostQueryType, DeviceCostsQueryType, SaveDeviceCostMutationType, DeleteDeviceCostMutationType } from '../../../graphql/deviceCost-graphql';
+import FormRibbon from '../../../components/ribbons/FormRibbon';
+import Form from '../../../components/form/DeviceCostForm';
 
+/*
+_id
+deviceId
+cppAgreementId
+deviceCostType
+name
+amount
+unitPrice
+totalPrice
+date
+createdOn
+comment
+*/
 const mapToApi = values => ({
   _id: values._id,
+  deviceId: values.deviceId,
   cppAgreementId: values.cppAgreementId,
   deviceCostType: values.deviceCostType,
   name: values.name,

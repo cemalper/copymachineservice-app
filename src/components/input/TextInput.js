@@ -4,7 +4,7 @@ import { Input } from 'antd';
 import FormInput from '../form-input/FormInput';
 
 const TextInput = props => {
-  const { label, name, touched, errors, values, initialValues, handleChange, handleBlur, required, disabled } = props;
+  const { label, name, touched, errors, values, initialValues, handleChange, handleBlur, required, disabled, span } = props;
   const value = values[name];
   const isTouched = touched[name];
   const defaultValue = initialValues[name];
@@ -17,7 +17,6 @@ const TextInput = props => {
   };
   return (
     <FormInput
-      style={{ marginBottom: 10 }}
       label={label}
       required={required}
       hasFeedback={!!isTouched}
@@ -25,6 +24,7 @@ const TextInput = props => {
       validateStatus={!!errorMessage && !!isTouched ? 'error' : 'success'}
       labelCol={labelCol}
       wrapperCol={wrapperCol}
+      span={span}
     >
       <Input name={name} placeholder={label} onBlur={handleBlur} onChange={onChange} value={value} defaultValue={defaultValue} disabled={disabled} />
     </FormInput>
@@ -34,6 +34,7 @@ const TextInput = props => {
 TextInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  span: PropTypes.number.isRequired,
   errorMessage: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string,

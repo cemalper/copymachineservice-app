@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
-import { CustomerQueryType, CustomersQueryType, SaveCustomerMutationType, DeleteCustomerMutationType } from '../../graphql/customer-graphql';
 import { Spin, Alert } from 'antd';
 import { Formik } from 'formik';
-import { useQuery, useMutation } from 'react-apollo-hooks';
-import FormRibbon from '../../components/ribbons/FormRibbon';
 import useReactRouter from 'use-react-router';
-import CustomerForm from '../../components/form/CustomerForm';
+import { useQuery, useMutation } from 'react-apollo-hooks';
+
+import { CustomerQueryType, CustomersQueryType, SaveCustomerMutationType, DeleteCustomerMutationType } from '../../../graphql/customer-graphql';
+import FormRibbon from '../../../components/ribbons/FormRibbon';
+import CustomerForm from '../../../components/form/CustomerForm';
 
 const mapToApi = values => ({
   _id: values._id,
@@ -54,7 +55,6 @@ const Customer = props => {
     visible: !!recordId,
     disabled: isDeleting
   };
-  console.log(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]);
   return (
     <Spin spinning={fetchQuery.loading}>
       <FormRibbon onNewButton={onNewButton} onSaveButton={onSaveButton} onDeleteButton={onDeleteButton} />

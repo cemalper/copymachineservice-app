@@ -3,54 +3,33 @@ import useReactRouter from 'use-react-router';
 import { Spin, Alert } from 'antd';
 import { Formik } from 'formik';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { CounterQueryType, CountersQueryType, SaveCounterMutationType, DeleteCounterMutationType } from '../../graphql/counter-graphql';
-import FormRibbon from '../../components/ribbons/FormRibbon';
-import Form from '../../components/form/CounterForm';
-//TODOs: maptoApi, form yapılacak counter için bir input yapılmalı mı? ödeme girerken aynısı kullanılabilir mi?
-/*
-deviceId
-      colour {
-        A5
-        A4
-        A3
-      }
-      black {
-        A5
-        A4
-        A3
-      }
-      date
-      device {
-        _id
-        serialNumber
-        brandName
-        model
-      }
-*/
+import {
+  CppAgreementQueryType,
+  CppAgreementsQueryType,
+  SaveCppAgreementMutationType,
+  DeleteCppAgreementMutationType
+} from '../../../graphql/cppAgreement-graphql';
+import FormRibbon from '../../../components/ribbons/FormRibbon';
+import Form from '../../../components/form/CppAgreementForm';
+
 const mapToApi = values => ({
   _id: values._id,
-  deviceId: values.deviceId,
-  colour: {
-    A5: values.colourA5,
-    A4: values.colourA4,
-    A3: values.colourA3
-  },
-  black: {
-    A5: values.blackA5,
-    A4: values.blackA4,
-    A3: values.blackA3
-  },
-  date: values.date
+  code: values.code,
+  incrementRate: values.incrementRate,
+  startDate: values.startDate,
+  finishDate: values.finishDate,
+  status: values.status,
+  customerId: values.customerId
 });
 
-const DeviceCost = props => {
-  const entityName = 'counter';
+const CppAgreement = props => {
+  const entityName = 'agreement/cpp/cppagreement';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(CounterQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
-  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCounterMutationType);
-  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteCounterMutationType);
+  const fetchQuery = useQuery(CppAgreementQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
+  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCppAgreementMutationType);
+  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteCppAgreementMutationType);
 
   const onNewButton = {
     onClick: () => {
@@ -67,7 +46,7 @@ const DeviceCost = props => {
 
   const onDeleteButton = {
     onClick: async () => {
-      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: CountersQueryType }] });
+      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });
       history.push(`/${entityName}`);
     },
     loading: isDeleting,
@@ -81,12 +60,12 @@ const DeviceCost = props => {
       {deletingError && <Alert message={`${deletingError.message} ${deletingError.stack}`} type="error" style={{ marginBottom: 20 }} />}
       <Formik
         ref={formikRef}
-        enableReinitialize
         validationSchema={Form.validationSchema}
+        enableReinitialize
         initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
-          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CountersQueryType }] });
+          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });
           setSubmitting(false);
           history.push(`/${entityName}`);
         }}
@@ -96,4 +75,4 @@ const DeviceCost = props => {
   );
 };
 
-export default DeviceCost;
+export default CppAgreement;

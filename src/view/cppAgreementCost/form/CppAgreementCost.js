@@ -3,51 +3,36 @@ import useReactRouter from 'use-react-router';
 import { Spin, Alert } from 'antd';
 import { Formik } from 'formik';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import {
-  CppAgreementQueryType,
-  CppAgreementsQueryType,
-  SaveCppAgreementMutationType,
-  DeleteCppAgreementMutationType
-} from '../../graphql/cppAgreement-graphql';
-import FormRibbon from '../../components/ribbons/FormRibbon';
-import Form from '../../components/form/CppAgreementDeviceForm';
-
-/*   
-  copyUnitPrice için formda ve mapperde düzenleme yapılmalı
-  _id: ID
-  deviceId: ID
-  cppDeviceType: CppAgreementDeviceType
-  machineRentPrice: MoneyType
-  copyUnitPrice: CopyUnitPrice
-  minimumCopyLimit: Int
-  cost: MoneyType
-*/
+import { DeviceCostQueryType, DeviceCostsQueryType, SaveDeviceCostMutationType, DeleteDeviceCostMutationType } from '../../../graphql/deviceCost-graphql';
+import FormRibbon from '../../../components/ribbons/FormRibbon';
+import Form from '../../../components/form/CppAgreementCostForm';
 
 const mapToApi = values => ({
   _id: values._id,
-  deviceId: values.deviceId,
-  cppDeviceType: values.cppDeviceType,
-  machineRentPrice: {},
-  copyUnitPrice: values.copyUnitPrice,
-  minimumCopyLimit: values.minimumCopyLimit,
-  cost: values.cost
+  cppAgreementId: values.cppAgreementId,
+  deviceCostType: values.deviceCostType,
+  name: values.name,
+  amount: values.amount,
+  unitPrice: values.unitPrice,
+  totalPrice: values.totalPrice,
+  date: values.date,
+  comment: values.comment
 });
 
-const CppAgreementDevice = props => {
-  const entityName = 'agreement/cpp/cppagreementdevice';
+const DeviceCost = props => {
+  const entityName = 'devicecost';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(CppAgreementQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
-  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCppAgreementMutationType);
-  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteCppAgreementMutationType);
+  const fetchQuery = useQuery(DeviceCostQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
+  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveDeviceCostMutationType);
+  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteDeviceCostMutationType);
 
   const onNewButton = {
     onClick: () => {
       history.push(`/${entityName}/new`);
     }
   };
-
   const onSaveButton = {
     onClick: () => {
       formikRef.current.submitForm();
@@ -58,14 +43,13 @@ const CppAgreementDevice = props => {
 
   const onDeleteButton = {
     onClick: async () => {
-      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });
+      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });
       history.push(`/${entityName}`);
     },
     loading: isDeleting,
     visible: !!recordId,
     disabled: isDeleting
   };
-  console.log(fetchQuery.data);
   return (
     <Spin spinning={fetchQuery.loading}>
       <FormRibbon onNewButton={onNewButton} onSaveButton={onSaveButton} onDeleteButton={onDeleteButton} />
@@ -78,7 +62,7 @@ const CppAgreementDevice = props => {
         initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
-          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });
+          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });
           setSubmitting(false);
           history.push(`/${entityName}`);
         }}
@@ -88,4 +72,4 @@ const CppAgreementDevice = props => {
   );
 };
 
-export default CppAgreementDevice;
+export default DeviceCost;

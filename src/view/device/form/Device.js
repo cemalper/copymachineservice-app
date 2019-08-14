@@ -3,39 +3,36 @@ import useReactRouter from 'use-react-router';
 import { Spin, Alert } from 'antd';
 import { Formik } from 'formik';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import {
-  CppAgreementQueryType,
-  CppAgreementsQueryType,
-  SaveCppAgreementMutationType,
-  DeleteCppAgreementMutationType
-} from '../../graphql/cppAgreement-graphql';
-import FormRibbon from '../../components/ribbons/FormRibbon';
-import Form from '../../components/form/CppAgreementForm';
+import { DeviceQueryType, DevicesQueryType, SaveDeviceMutationType, DeleteDeviceMutationType } from '../../../graphql/device-graphql';
+import FormRibbon from '../../../components/ribbons/FormRibbon';
+import DeviceForm from '../../../components/form/DeviceForm';
 
 const mapToApi = values => ({
   _id: values._id,
   code: values.code,
-  incrementRate: values.incrementRate,
-  startDate: values.startDate,
-  finishDate: values.finishDate,
-  status: values.status,
+  brandName: values.brandName,
+  model: values.model,
+  serialNumber: values.serialNumber,
+  colourType: values.colourType,
+  deviceType: values.deviceType,
   customerId: values.customerId
 });
 
-const CppAgreement = props => {
-  const entityName = 'agreement/cpp/cppagreement';
+const Device = props => {
+  const entityName = 'device';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
   const formikRef = useRef(null);
-  const fetchQuery = useQuery(CppAgreementQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
-  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCppAgreementMutationType);
-  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteCppAgreementMutationType);
+  const fetchQuery = useQuery(DeviceQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
+  const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveDeviceMutationType);
+  const [deleteMutation, { loading: isDeleting, error: deletingError }] = useMutation(DeleteDeviceMutationType);
 
   const onNewButton = {
     onClick: () => {
       history.push(`/${entityName}/new`);
     }
   };
+
   const onSaveButton = {
     onClick: () => {
       formikRef.current.submitForm();
@@ -46,7 +43,7 @@ const CppAgreement = props => {
 
   const onDeleteButton = {
     onClick: async () => {
-      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });
+      deleteMutation({ variables: { _ids: [recordId] }, refetchQueries: () => [{ query: DevicesQueryType }] });
       history.push(`/${entityName}`);
     },
     loading: isDeleting,
@@ -60,19 +57,19 @@ const CppAgreement = props => {
       {deletingError && <Alert message={`${deletingError.message} ${deletingError.stack}`} type="error" style={{ marginBottom: 20 }} />}
       <Formik
         ref={formikRef}
-        validationSchema={Form.validationSchema}
         enableReinitialize
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
+        validationSchema={DeviceForm.validationSchema}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || DeviceForm.initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
-          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });
+          await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: DevicesQueryType }] });
           setSubmitting(false);
           history.push(`/${entityName}`);
         }}
-        component={Form}
+        component={DeviceForm}
       />
     </Spin>
   );
 };
 
-export default CppAgreement;
+export default Device;

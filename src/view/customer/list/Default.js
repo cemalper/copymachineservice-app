@@ -1,6 +1,6 @@
 import React from 'react';
-import Table from '../table/Table';
-import { CustomersQueryType, DeleteCustomerMutationType } from '../../graphql/customer-graphql';
+import Table from '../../table/Table';
+import { CustomersQueryType, DeleteCustomerMutationType } from '../../../graphql/customer-graphql';
 
 const columns = [
   {

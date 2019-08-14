@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { CppAgreementsQueryType, DeleteCppAgreementMutationType } from '../../graphql/cppAgreement-graphql';
 import { cppAgreementStatusTypePair } from 'common/enums';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import Table from '../../components/table/Table';
-
-import TableRibbons from '../../components/ribbons/TableRibbon';
-import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
+import Table from '../../../components/table/Table';
+import { CppAgreementsQueryType, DeleteCppAgreementMutationType } from '../../../graphql/cppAgreement-graphql';
+import TableRibbons from '../../../components/ribbons/TableRibbon';
+import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
 
 const entityName = 'agreement/cpp/cppagreement';
 const columns = [

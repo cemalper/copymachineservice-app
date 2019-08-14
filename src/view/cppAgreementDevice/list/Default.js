@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { CppAgreementDevicesQueryType, DeleteCppAgreementDeviceMutationType } from '../../graphql/cppAgreementDevice-graphql';
 import { cppAgreementDeviceTypePair } from 'common/enums';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import Table from '../../components/table/Table';
 
-import TableRibbons from '../../components/ribbons/TableRibbon';
-import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
-import { buildDeviceName, buildCustomerName, buildMoneyName } from '../../utils/buildName';
+import Table from '../../../components/table/Table';
+import { CppAgreementDevicesQueryType, DeleteCppAgreementDeviceMutationType } from '../../../graphql/cppAgreementDevice-graphql';
+import TableRibbons from '../../../components/ribbons/TableRibbon';
+import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
+import { buildDeviceName, buildCustomerName, buildMoneyName } from '../../../utils/buildName';
 const entityName = 'agreement/cpp/cppagreementdevice';
 const columns = [
   {

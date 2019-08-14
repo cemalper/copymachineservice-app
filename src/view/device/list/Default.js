@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { DevicesQueryType, DeleteDeviceMutationType } from '../../graphql/device-graphql';
+
 import { deviceColourTypePair, brandNamesPair, deviceTypePair } from 'common/enums';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import Table from '../../components/table/Table';
-
-import TableRibbons from '../../components/ribbons/TableRibbon';
-import RadioButton from '../../components/ribbons/RadioRibbon';
-import ShowErrorNotification from '../../components/showErrorNotification/ShowErrorNotification';
+import Table from '../../../components/table/Table';
+import { DevicesQueryType, DeleteDeviceMutationType } from '../../../graphql/device-graphql';
+import TableRibbons from '../../../components/ribbons/TableRibbon';
+import RadioButton from '../../../components/ribbons/RadioRibbon';
+import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
 
 const entityName = 'device';
 const columns = [
