@@ -9,7 +9,7 @@ const Option = Select.Option;
 const CustomerLookupInput = props => (
   <LookupInput
     {...props}
-    selectQuery={useQuery(DeviceLookupQueryType)}
+    selectQuery={useQuery(DeviceLookupQueryType, { fetchPolicy: 'network-only' })}
     dataField="devices"
     optionFilterProp="_id"
     optionLabelProp="label"

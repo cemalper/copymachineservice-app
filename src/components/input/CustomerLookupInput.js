@@ -1,7 +1,7 @@
 import React from 'react';
 import LookupInput from './LookupInput';
 import { useQuery } from 'react-apollo-hooks';
-import { CppAgreementLookupQueryType } from '../../graphql/cppAgreement-graphql';
+import { CustomerLookupQueryType } from '../../graphql/customer-graphql';
 import { Select } from 'antd';
 import { buildCustomerName } from '../../utils/buildName';
 const Option = Select.Option;
@@ -9,8 +9,8 @@ const Option = Select.Option;
 const CustomerLookupInput = props => (
   <LookupInput
     {...props}
-    selectQuery={useQuery(CppAgreementLookupQueryType)}
-    dataField="cppAgreements"
+    selectQuery={useQuery(CustomerLookupQueryType)}
+    dataField="customers"
     optionFilterProp="_id"
     optionLabelProp="label"
     filterOption={(input, option) => option.props.label.toLowerCase().indexOf(input.toLowerCase()) >= 0}

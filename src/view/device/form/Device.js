@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useReactRouter from 'use-react-router';
 import { Spin, Alert } from 'antd';
 import { Formik } from 'formik';
@@ -21,6 +21,15 @@ const mapToApi = values => ({
 const Device = props => {
   const entityName = 'device';
   const recordId = props.match.params.id;
+  const [initialValues, setInitialValues] = useState(DeviceForm.initialValues);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(props.location.search);
+    const params = Object.fromEntries(urlParams);
+    setInitialValues({ ...DeviceForm.initialValues, ...params });
+    console.log('i', initialValues);
+    //eslint-disable-next-line
+  }, [props.location.search]);
+
   const { history } = useReactRouter();
   const formikRef = useRef(null);
   const fetchQuery = useQuery(DeviceQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
@@ -59,7 +68,7 @@ const Device = props => {
         ref={formikRef}
         enableReinitialize
         validationSchema={DeviceForm.validationSchema}
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || DeviceForm.initialValues}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: DevicesQueryType }] });

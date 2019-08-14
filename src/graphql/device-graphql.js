@@ -19,6 +19,20 @@ export const DevicesQueryType = gql`
   }
 `;
 
+export const CustomerDevicesQueryType = gql`
+  query CustomerDevices($customerId: ID) {
+    devices(customerId: $customerId) {
+      _id
+      code
+      brandName
+      model
+      serialNumber
+      colourType
+      deviceType
+    }
+  }
+`;
+
 export const DeviceLookupQueryType = gql`
   {
     devices {

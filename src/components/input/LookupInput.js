@@ -37,7 +37,11 @@ function LookupInput(props) {
         optionLabelProp={optionLabelProp}
         //filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
       >
-        {selectQuery.data && selectQuery.data[dataField] && selectQuery.data[dataField].map(option => renderOption(option))}
+        {selectQuery.data &&
+          selectQuery.data[dataField] &&
+          selectQuery.data[dataField].map(option => {
+            return renderOption(option);
+          })}
       </Select>
     </FormInput>
   );
@@ -65,19 +69,5 @@ LookupInput.propTypes = {
 export default LookupInput;
 
 LookupInput.defaultProps = {
-  options: [],
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-    md: { span: 8 },
-    lg: { span: 8 },
-    xl: { span: 4 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 18 },
-    md: { span: 16 },
-    lg: { span: 16 },
-    xl: { span: 20 }
-  }
+  options: []
 };

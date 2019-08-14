@@ -105,19 +105,5 @@ OptionInput.Option = MyOption;
 export default OptionInput;
 
 OptionInput.defaultProps = {
-  options: [],
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-    md: { span: 8 },
-    lg: { span: 8 },
-    xl: { span: 4 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 18 },
-    md: { span: 16 },
-    lg: { span: 16 },
-    xl: { span: 20 }
-  }
+  options: []
 };
