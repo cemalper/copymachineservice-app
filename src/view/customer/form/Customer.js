@@ -7,6 +7,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import { CustomerQueryType, CustomersQueryType, SaveCustomerMutationType, DeleteCustomerMutationType } from '../../../graphql/customer-graphql';
 import FormRibbon from '../../../components/ribbons/FormRibbon';
 import CustomerForm from '../../../components/form/CustomerForm';
+import useMergedInitialValues from '../../../hook/useMergedInitialValues';
 
 const mapToApi = values => ({
   _id: values._id,
@@ -26,6 +27,7 @@ const mapToApi = values => ({
 const Customer = props => {
   const entityName = 'customer';
   const recordId = props.match.params.id;
+  const initialValues = useMergedInitialValues(CustomerForm.initialValues, props.location.search);
   const { history } = useReactRouter();
   const formikRef = useRef(null);
   const fetchQuery = useQuery(CustomerQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
@@ -64,7 +66,7 @@ const Customer = props => {
         ref={formikRef}
         enableReinitialize
         validationSchema={CustomerForm.validationSchema}
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || CustomerForm.initialValues}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CustomersQueryType }] });

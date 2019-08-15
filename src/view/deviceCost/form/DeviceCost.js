@@ -6,20 +6,8 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import { DeviceCostQueryType, DeviceCostsQueryType, SaveDeviceCostMutationType, DeleteDeviceCostMutationType } from '../../../graphql/deviceCost-graphql';
 import FormRibbon from '../../../components/ribbons/FormRibbon';
 import Form from '../../../components/form/DeviceCostForm';
+import useMergedInitialValues from '../../../hook/useMergedInitialValues';
 
-/*
-_id
-deviceId
-cppAgreementId
-deviceCostType
-name
-amount
-unitPrice
-totalPrice
-date
-createdOn
-comment
-*/
 const mapToApi = values => ({
   _id: values._id,
   deviceId: values.deviceId,
@@ -36,6 +24,7 @@ const mapToApi = values => ({
 const DeviceCost = props => {
   const entityName = 'devicecost';
   const recordId = props.match.params.id;
+  const initialValues = useMergedInitialValues(Form.initialValues, props.location.search);
   const { history } = useReactRouter();
   const formikRef = useRef(null);
   const fetchQuery = useQuery(DeviceCostQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
@@ -73,7 +62,7 @@ const DeviceCost = props => {
         ref={formikRef}
         enableReinitialize
         validationSchema={Form.validationSchema}
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: DeviceCostsQueryType }] });

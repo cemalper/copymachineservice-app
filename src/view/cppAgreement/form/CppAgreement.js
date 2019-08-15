@@ -11,6 +11,7 @@ import {
 } from '../../../graphql/cppAgreement-graphql';
 import FormRibbon from '../../../components/ribbons/FormRibbon';
 import Form from '../../../components/form/CppAgreementForm';
+import useMergedInitialValues from '../../../hook/useMergedInitialValues';
 
 const mapToApi = values => ({
   _id: values._id,
@@ -26,6 +27,7 @@ const CppAgreement = props => {
   const entityName = 'agreement/cpp/cppagreement';
   const recordId = props.match.params.id;
   const { history } = useReactRouter();
+  const initialValues = useMergedInitialValues(Form.initialValues, props.location.search);
   const formikRef = useRef(null);
   const fetchQuery = useQuery(CppAgreementQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
   const [saveMutation, { loading: isSaving, error: savingError }] = useMutation(SaveCppAgreementMutationType);
@@ -62,7 +64,7 @@ const CppAgreement = props => {
         ref={formikRef}
         validationSchema={Form.validationSchema}
         enableReinitialize
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });

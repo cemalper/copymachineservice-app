@@ -11,17 +11,7 @@ import {
 } from '../../../graphql/cppAgreement-graphql';
 import FormRibbon from '../../../components/ribbons/FormRibbon';
 import Form from '../../../components/form/CppAgreementDeviceForm';
-
-/*   
-  copyUnitPrice için formda ve mapperde düzenleme yapılmalı
-  _id: ID
-  deviceId: ID
-  cppDeviceType: CppAgreementDeviceType
-  machineRentPrice: MoneyType
-  copyUnitPrice: CopyUnitPrice
-  minimumCopyLimit: Int
-  cost: MoneyType
-*/
+import useMergedInitialValues from '../../../hook/useMergedInitialValues';
 
 const mapToApi = values => ({
   _id: values._id,
@@ -36,6 +26,7 @@ const mapToApi = values => ({
 const CppAgreementDevice = props => {
   const entityName = 'agreement/cpp/cppagreementdevice';
   const recordId = props.match.params.id;
+  const initialValues = useMergedInitialValues(Form.initialValues, props.location.search);
   const { history } = useReactRouter();
   const formikRef = useRef(null);
   const fetchQuery = useQuery(CppAgreementQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
@@ -75,7 +66,7 @@ const CppAgreementDevice = props => {
         ref={formikRef}
         enableReinitialize
         validationSchema={Form.validationSchema}
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CppAgreementsQueryType }] });

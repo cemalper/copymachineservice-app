@@ -6,6 +6,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import { CounterQueryType, CountersQueryType, SaveCounterMutationType, DeleteCounterMutationType } from '../../../graphql/counter-graphql';
 import FormRibbon from '../../../components/ribbons/FormRibbon';
 import Form from '../../../components/form/CounterForm';
+import useMergedInitialValues from '../../../hook/useMergedInitialValues';
 
 const mapToApi = values => ({
   _id: values._id,
@@ -26,6 +27,7 @@ const mapToApi = values => ({
 const DeviceCost = props => {
   const entityName = 'counter';
   const recordId = props.match.params.id;
+  const initialValues = useMergedInitialValues(Form.initialValues, props.location.search);
   const { history } = useReactRouter();
   const formikRef = useRef(null);
   const fetchQuery = useQuery(CounterQueryType, { variables: { _id: recordId }, fetchPolicy: 'cache-and-network' });
@@ -63,7 +65,7 @@ const DeviceCost = props => {
         ref={formikRef}
         enableReinitialize
         validationSchema={Form.validationSchema}
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || Form.initialValues}
+        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CountersQueryType }] });
