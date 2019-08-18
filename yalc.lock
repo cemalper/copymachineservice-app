@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "common": {
+      "signature": "a3cdd58fb01bba97e1218f545dbafb70",
+      "file": true,
+      "replaced": "file:../common"
+    }
+  }
+}
