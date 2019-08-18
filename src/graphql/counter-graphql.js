@@ -18,6 +18,7 @@ export const CountersQueryType = gql`
       date
       device {
         _id
+        code
         serialNumber
         brandName
         model

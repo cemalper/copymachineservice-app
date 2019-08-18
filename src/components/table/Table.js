@@ -22,6 +22,7 @@ const Table = props => {
     <AntTable
       size="small"
       dataSource={dataSource}
+      bordered
       rowKey={record => record._id}
       pagination={{ pageSize: 50, position: 'bottom' }}
       columns={columns}

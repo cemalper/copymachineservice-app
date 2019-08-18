@@ -24,6 +24,12 @@ const mapToApi = values => ({
   date: values.date
 });
 
+const apiToForm = values =>({
+  _id: values._id,
+  deviceId: values.deviceId,
+  colourA5: values
+})
+
 const DeviceCost = props => {
   const entityName = 'counter';
   const recordId = props.match.params.id;
