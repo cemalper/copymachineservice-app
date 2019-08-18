@@ -24,11 +24,17 @@ const mapToApi = values => ({
   date: values.date
 });
 
-const apiToForm = values =>({
+const apiToForm = values => ({
   _id: values._id,
   deviceId: values.deviceId,
-  colourA5: values
-})
+  colourA5: values.colour.A5,
+  colourA4: values.colour.A4,
+  colourA3: values.colour.A3,
+  blackA5: values.black.A5,
+  blackA4: values.black.A4,
+  blackA3: values.black.A3,
+  date: values.date
+});
 
 const DeviceCost = props => {
   const entityName = 'counter';
@@ -71,7 +77,7 @@ const DeviceCost = props => {
         ref={formikRef}
         enableReinitialize
         validationSchema={Form.validationSchema}
-        initialValues={(fetchQuery.data && fetchQuery.data[Object.keys(fetchQuery.data)]) || initialValues}
+        initialValues={(fetchQuery.data && apiToForm(fetchQuery.data[Object.keys(fetchQuery.data)])) || initialValues}
         isInitialValid={false}
         onSubmit={async (values, { setSubmitting }) => {
           await saveMutation({ variables: { data: mapToApi(values) }, refetchQueries: () => [{ query: CountersQueryType }] });
