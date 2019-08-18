@@ -3,25 +3,17 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 //import ApolloClient from 'apollo-boost';
-import ApolloClient from 'apollo-client';
-import { from } from 'apollo-link';
-import { ApolloProvider } from 'react-apollo-hooks';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { createHttpLink } from 'apollo-link-http';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { AuthentationProvider } from './provider/AuthentationProvider';
 
-const client = new ApolloClient({
-  link: from([createHttpLink({ uri: process.env.REACT_APP_SERVER_URL })]),
-  cache: new InMemoryCache({ addTypename: false })
-});
 const app = (
-  <ApolloProvider client={client}>
+  <AuthentationProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </ApolloProvider>
+  </AuthentationProvider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));
