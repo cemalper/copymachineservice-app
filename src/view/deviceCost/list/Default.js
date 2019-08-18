@@ -6,7 +6,7 @@ import Table from '../../../components/table/Table';
 import { DeviceCostsQueryType, DeleteDeviceCostMutationType } from '../../../graphql/deviceCost-graphql';
 import TableRibbons from '../../../components/ribbons/TableRibbon';
 import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
-import { buildDeviceName, buildMoneyName } from '../../../utils/buildName';
+import { buildDeviceName, buildMoneyName, buildDate } from '../../../utils/buildName';
 
 const entityName = 'devicecost';
 const columns = [
@@ -37,7 +37,8 @@ const columns = [
   },
   {
     title: 'Tarih',
-    dataIndex: 'date'
+    dataIndex: 'date',
+    render: text => buildDate(text)
   }
 ];
 

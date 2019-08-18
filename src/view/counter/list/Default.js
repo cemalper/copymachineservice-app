@@ -4,7 +4,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import Table from '../../../components/table/Table';
 import TableRibbons from '../../../components/ribbons/TableRibbon';
 import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
-import { buildDeviceName } from '../../../utils/buildName';
+import { buildDeviceName, buildDate } from '../../../utils/buildName';
 import { CountersQueryType, DeleteCounterMutationType } from '../../../graphql/counter-graphql';
 const entityName = 'counter';
 const columns = [
@@ -50,7 +50,8 @@ const columns = [
   },
   {
     title: 'Tarih',
-    dataIndex: 'date'
+    dataIndex: 'date',
+    render: text => buildDate(text)
   }
 ];
 

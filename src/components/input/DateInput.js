@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import { DatePicker as AntDatePicker } from 'antd/';
 import locale from 'antd/lib/date-picker/locale/tr_TR';
 import FormInput from '../form-input/FormInput';
+import moment from 'moment';
 
 const DateInput = props => {
   const { label, name, touched, errors, values, initialValues, defaultValue, isRequired: required, setFieldTouched, setFieldValue, disabled } = props;
-  const value = values[name];
+  let value = values[name];
+  if (typeof value === 'string') {
+    value = moment(value);
+  }
   const isTouched = touched[name];
   const _defaultValue = defaultValue || initialValues[name];
   const errorMessage = errors[name];

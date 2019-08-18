@@ -6,7 +6,7 @@ import { DeviceCostsQueryType, DeleteDeviceCostMutationType } from '../../../gra
 import Table from '../../../components/table/Table';
 import TableRibbons from '../../../components/ribbons/TableRibbon';
 import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
-import { buildDeviceName, buildMoneyName, buildCppAgreementName } from '../../../utils/buildName';
+import { buildDeviceName, buildMoneyName, buildCppAgreementName, buildDate } from '../../../utils/buildName';
 
 const entityName = 'agreement/cpp/cppagreementcost';
 const columns = [
@@ -47,7 +47,8 @@ const columns = [
   },
   {
     title: 'Tarih',
-    dataIndex: 'date'
+    dataIndex: 'date',
+    render: (text)=> buildDate(text),
   }
 ];
 

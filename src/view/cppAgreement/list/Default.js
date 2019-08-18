@@ -5,7 +5,7 @@ import Table from '../../../components/table/Table';
 import { CppAgreementsQueryType, DeleteCppAgreementMutationType } from '../../../graphql/cppAgreement-graphql';
 import TableRibbons from '../../../components/ribbons/TableRibbon';
 import ShowErrorNotification from '../../../components/showErrorNotification/ShowErrorNotification';
-
+import { buildDate } from '../../../utils/buildName';
 const entityName = 'agreement/cpp/cppagreement';
 const columns = [
   {
@@ -25,13 +25,15 @@ const columns = [
   {
     title: 'Başlangıç Tarihi',
     dataIndex: 'startDate',
-    sorter: true
+    sorter: true,
+    render: text => buildDate(text)
   },
 
   {
     title: 'Bitiş Tarihi',
-    dataIndex: 'endDate',
-    sorter: true
+    dataIndex: 'finishDate',
+    sorter: true,
+    render: text => buildDate(text)
   },
   {
     title: 'Yıllık Artış',

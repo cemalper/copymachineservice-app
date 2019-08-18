@@ -16,7 +16,7 @@ import useMergedInitialValues from '../../../hook/useMergedInitialValues';
 const mapToApi = values => ({
   _id: values._id,
   code: values.code,
-  incrementRate: values.incrementRate,
+  incrementRate: parseFloat(values.incrementRate),
   startDate: values.startDate,
   finishDate: values.finishDate,
   status: values.status,
