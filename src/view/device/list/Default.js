@@ -22,11 +22,12 @@ const columns = [
   {
     title: 'Müşteri',
     dataIndex: 'customerTitle',
-    render: (text, record) => (
-      <a href={`/customer/${record.customer._id}`}>
-        {record.customer.code} - {record.customer.title}
-      </a>
-    )
+    render: (text, record) =>
+      record.customer && (
+        <a href={`/customer/${record.customer._id}`}>
+          {record.customer.code} - {record.customer.title}
+        </a>
+      )
   },
   {
     title: 'Marka',
@@ -76,9 +77,8 @@ const DeviceList = props => {
       case 0:
       default:
         var customerNameColumn = columns.find(x => x.dataIndex === 'customerTitle');
-        customerNameColumn.filters = data.map(x => ({ text: `${x.customer.code} - ${x.customer.title}`, value: x.customer.code }));
+        customerNameColumn.filters = data.filter(x => !!x.customer).map(x => ({ text: `${x.customer.code} - ${x.customer.title}`, value: x.customer.code }));
         customerNameColumn.onFilter = (value, record) => record.customer.code === value;
-        //columns.find(x => x.dataIndex === 'customerTitle').filters = deviceColourTypePair
         setFilteredColumns(columns);
         setDataSource(data);
     }

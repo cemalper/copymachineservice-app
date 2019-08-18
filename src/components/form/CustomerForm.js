@@ -19,7 +19,7 @@ const CustomerForm = props => {
       <TextInput name="officePhone" label="Tel" {...props} />
       <TextInput name="officePhone2" label="Tel 2" {...props} />
       <TextInput name="faxPhone" label="Fax" {...props} />
-      <TextInput name="taxoffice" label="Vergi Dairesi" {...props} />
+      <TextInput name="taxOffice" label="Vergi Dairesi" {...props} />
       <TextInput name="taxNo" label="Vergi No" {...props} />
       <TextInput name="mail" label="E Mail" {...props} />
       <DateInput name="createdOn" label="Kayıt Tarihi" {...props} defaultValue={props.initialValues.createdOn || moment()} disabled />
